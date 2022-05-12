@@ -1,5 +1,4 @@
 var questionContent = $("#questionText");
-var gameText = $("#game-timer");
 var timerEl = $("#game-timer");
 var startBtn = $("#start-btn");
 var submitBtn = $("#submit-btn");
@@ -76,31 +75,47 @@ function init(params) {
   createQuestion();
 }
 // create event listeners for buttons
+startBtn.on("click", startGame);
 // Start game btn
 // submit answer btn
 
 // start game function
-
-// hide start btn
-//show submit btn
-// set timer and score values
+function startGame() {
+  startBtn.hide();
+  // hide start btn
+  //show submit btn
+  submitBtn.show();
+  // set timer and score values
+  timer = 30;
+  score = 0;
+  var gameTimeLimit = setInterval(() => {
+    if (timer === 0) {
+      clearInterval(gameTimeLimit);
+      endGame();
+    }
+    timerEl.text(timer);
+    timer--;
+  }, 1000);
+}
 
 // end game function
-// hide submit btn
-// show start timer btn
-// alert current score
-// capture user initals
-// save score and initials to localstorage data
-// re-render high scores
+function endGame() {
+  // hide submit btn
+  // show start timer btn
+  // alert current score
+  // capture user initals
+  // save score and initials to localstorage data
+  // re-render high scores
+}
 
 // render highscores:
 function createScoreboard(params) {
   var currentScore = JSON.parse(localStorage.getItem("psychoScore")) || [];
 
   listOfScores.empty();
-  if (listOfScores.length === 0) {
-    return listOfScores.text("No One has Played Yet!");
-  }
+  //   if (listOfScores.length === 0) {
+  //     return listOfScores.text("No One has Played Yet!");
+  //   }
   for (var i = 0; i < currentScore.length; i++) {
     var scoreObj = currentScore[i];
     var newScore = $("<li>", {
