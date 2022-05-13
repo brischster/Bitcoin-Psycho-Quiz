@@ -11,7 +11,11 @@ One is able to find a live version of the code by following this link: https://b
 ## Screen Shot
 
 ![screen_shot](https://github.com/brischster/Bitcoin-Psycho-Quiz
-/blob/main/image.jpg?raw=true)
+/main/image.jpg?raw=true)
+
+![Image](./Assets/images/Screen Shot 2022-05-12 at 10.24.37 PM.png "ScreenShot")
+
+./Assets/images/Screen Shot 2022-05-12 at 10.24.37 PM.png
 
 ## Executing the Program
 
