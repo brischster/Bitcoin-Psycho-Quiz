@@ -1,3 +1,41 @@
-/* body {
-  background-c
-} */
+* {
+  background-color: #4d4d4e;
+}
+
+body {
+  font-family: "Medula One", cursive;
+  font-size: 36px;
+  color: #f2a900;
+}
+
+h3 {
+  margin-bottom: 0;
+}
+
+.container {
+  max-width: 1267px;
+}
+
+div.container {
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+h1 {
+  margin-bottom: 0px;
+}
+
+#start-btn {
+  color: #ffffff;
+}
+
+#submit-btn {
+  color: #ffffff;
+}
+
+.btn {
+  font-size: 3rem;
+  background-color: #f2a900;
+}
