@@ -6,6 +6,7 @@ var answerOne = $("#answer-1");
 var answerTwo = $("#answer-2");
 var answerThree = $("#answer-3");
 var listOfScores = $("#highscores");
+var allAnswers = $("[name='answers']");
 
 var questionsArray = [
   {
@@ -56,11 +57,13 @@ var questionsArray = [
   },
 ];
 
-console.log(questionsArray[0].answers.a);
+// console.log(questionsArray[0].answers.a);
 
 // Game Logic Variables (Timer, Index Numbers
 var timer = 30;
 var currentIndex = 0;
+var isGameOver = false;
+var gameTimeLimit;
 
 init();
 
@@ -78,6 +81,26 @@ function init(params) {
 startBtn.on("click", startGame);
 // Start game btn
 // submit answer btn
+submitBtn.on("click", function () {
+  // console.log(allAnswers);
+  // console.log(allAnswers.filter(":checked")[0]?.value);
+  var selectedAnswer = allAnswers.filter(":checked")[0];
+  // get value of the check radio button
+  // check if the value is correct or matches correct answer
+  if (selectedAnswer?.value === questionsArray[currentIndex].correctAnswer) {
+    score++;
+  } else {
+    timer -= 5;
+  }
+
+  if (currentIndex < questionsArray.length - 1) {
+    currentIndex++;
+    createQuestion();
+    selectedAnswer.checked = false;
+  } else {
+    endGame();
+  }
+});
 
 // start game function
 function startGame() {
@@ -88,28 +111,42 @@ function startGame() {
   // set timer and score values
   timer = 30;
   score = 0;
-  var gameTimeLimit = setInterval(() => {
-    if (timer === 0) {
-      clearInterval(gameTimeLimit);
+
+  gameTimeLimit = setInterval(() => {
+    if (timer === 0 && !isGameOver) {
       endGame();
     }
-    timerEl.text(timer);
+    timerEl.text(`Remaining Time: ${timer}`);
     timer--;
   }, 1000);
 }
 
 // end game function
 function endGame() {
+  clearInterval(gameTimeLimit);
+  isGameOver = true;
   // hide submit btn
+  submitBtn.hide();
   // show start timer btn
+  startBtn.show();
   // alert current score
   // capture user initals
+  var initials = prompt(`Your score: ${score}
+  Please share your initals.`);
   // save score and initials to localstorage data
+  var currentScore = JSON.parse(localStorage.getItem("psychoScore")) || [];
+  var playerObj = {
+    initials,
+    score,
+  };
   // re-render high scores
+  currentScore.push(playerObj);
+  localStorage.setItem("psychoScore", JSON.stringify(currentScore));
+  createScoreboard();
 }
 
 // render highscores:
-function createScoreboard(params) {
+function createScoreboard() {
   var currentScore = JSON.parse(localStorage.getItem("psychoScore")) || [];
 
   listOfScores.empty();
@@ -120,7 +157,8 @@ function createScoreboard(params) {
     var scoreObj = currentScore[i];
     var newScore = $("<li>", {
       class: "list-group-item",
-    }).text(scoreObj.initials + "----" + scoreObj.score);
+    });
+    newScore.text(scoreObj.initials + "----" + scoreObj.score);
 
     listOfScores.append(newScore);
   }
